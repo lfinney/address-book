@@ -59,10 +59,23 @@ def new_address():
             "city": city.encode("utf-8"),
             "state": state.encode("utf-8"),
             "zip_code": zip_code.encode("utf-8")})
+
         flash('Your address book has been updated', 'success')
 
-        redirect(url_for('addresses'))
+        return redirect(url_for('addresses'))
     return render_template('new-address.html', form=form)
+
+@app.route('/delete_address/<string:name>', methods=['POST'])
+def delete_address(name):
+    if request.method == 'POST':
+        for address in Addresses:
+            if address['name'] == name:
+                Addresses.remove(address)
+
+
+        flash('Address deleted', 'success')
+
+        return redirect(url_for('addresses'))
 
 if __name__ == '__main__':
     app.run(debug=True)
