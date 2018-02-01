@@ -37,10 +37,6 @@ def index():
 def addresses():
     return render_template('addresses.html', addresses=Addresses)
 
-@app.route('/address/<string:id>')
-def address(id):
-    return render_template('address.html', id=id)
-
 class NewAddress(Form):
     name = StringField(u'Name', validators=[validators.Length(min=1, max=50)])
     address  = StringField(u'Address', validators=[validators.input_required()])
