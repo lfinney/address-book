@@ -2,6 +2,8 @@ from flask import Flask, request, render_template, flash, redirect, url_for, ses
 from wtforms import Form, StringField, validators
 
 app = Flask(__name__)
+app.secret_key = "super secret key"
+
 
 Addresses = [
     {
@@ -61,7 +63,9 @@ def new_address():
             "city": city.encode("utf-8"),
             "state": state.encode("utf-8"),
             "zip_code": zip_code.encode("utf-8")})
-        print Addresses
+        flash('Your address book has been updated', 'success')
+
+        redirect(url_for('addresses'))
     return render_template('new-address.html', form=form)
 
 if __name__ == '__main__':

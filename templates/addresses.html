@@ -6,15 +6,15 @@
     <ul class="addresses">
       {% for address in addresses %}
         <li class="address-entry">
-          <a href="address/{{ address.id }}" class="address-link">
             {{ address.name }}
             {{ address.address }}
             {{ address.city }}
             {{ address.state }}
             {{ address.zip_code }}
-          </a>
+
         </li>
       {% endfor %}
     </ul>
+    <a href="new-address" class="address-link">Add new address</a>
   </div>
 {% endblock %}
