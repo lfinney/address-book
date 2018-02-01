@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <div class="address-book">
+    <h2 class="heading">Add address</h2>
+    {% from "includes/_formhelpers.html" import render_field %}
+    <form method="POST" action="">
+      <div class="form-field">
+        {{render_field(form.name, class_="form-input")}}
+      </div>
+      <div class="form-field">
+        {{render_field(form.address, class_="form-input")}}
+      </div>
+      <div class="form-field">
+        {{render_field(form.city, class_="form-input")}}
+      </div>
+      <div class="form-field">
+        {{render_field(form.state, class_="form-input")}}
+      </div>
+      <div class="form-field">
+        {{render_field(form.zip_code, class_="form-input")}}
+      </div>
+      <button class="submit">Add Address</button>
+    </form>
+  </div>
+{% endblock %}
