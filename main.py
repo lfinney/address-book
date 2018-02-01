@@ -1,15 +1,21 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, flash, redirect, url_for, session, logging
+from data import Addresses
 
 app = Flask(__name__)
 
+Addresses = Addresses()
 
 @app.route('/')
 def index():
-    return 'This is the homepage'
+    return render_template('home.html')
 
-@app.route('/profile/<name>')
-def profile(name):
-    return render_template("profile.html", name=name)
+@app.route('/addresses')
+def addresses():
+    return render_template('addresses.html', addresses=Addresses)
 
-if __name__ == "__main__":
+@app.route('/address/<string:id>')
+def address(id):
+    return render_template('address.html', id=id)
+
+if __name__ == '__main__':
     app.run(debug=True)
