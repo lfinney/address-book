@@ -53,10 +53,6 @@ def build_url_usps_zip_lookup(user, zip_code):
     print 'call ', call
     return call
 
-test_response = build_url_usps_zip_lookup(API_USERNAME, '80110')
-
-print 'test_response ', urllib.urlopen(test_response).read()
-
 @app.route('/')
 def index():
     print 'test_response: ' + str(test_response)
@@ -93,6 +89,28 @@ def new_address():
 
         return redirect(url_for('addresses'))
     return render_template('new-address.html', form=form)
+
+class ZipCodeLookup(Form):
+    zip_code  = StringField(u'Zip Code', validators=[validators.Length(min=5, max=5)])
+
+@app.route('/zip-lookup', methods=['GET', 'POST'])
+def zip_code_lookup():
+    zip_lookup = ZipCodeLookup(request.form)
+    if request.method == 'POST' and zip_lookup.validate():
+        zip_code = zip_lookup.zip_code.data
+        zip_code = build_url_usps_zip_lookup(API_USERNAME, zip_code)
+        zip_code = urllib.urlopen(zip_code).read()
+
+        zip_text = xml.fromstring(zip_code).find('ZipCode').find('Zip5').text
+        city_text = xml.fromstring(zip_code).find('ZipCode').find('City').text
+        state_text = xml.fromstring(zip_code).find('ZipCode').find('State').text
+
+
+        flash('The city is %s and the state is %s for zip code %s' % (city_text, state_text, zip_text), 'success')
+
+        print zip_code
+        return redirect(url_for('new_address'))
+    return render_template('ziplookup.html', zip_lookup=zip_lookup)
 
 @app.route('/delete_address/<string:name>', methods=['POST'])
 def delete_address(name):
