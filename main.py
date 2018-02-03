@@ -41,15 +41,13 @@ def build_api_zip_lookup_element(user, zip_code):
     zip_node = xml.SubElement(zip_lookup_request, 'ZipCode', {'ID': '0'})
     zip5_node = xml.SubElement(zip_node, 'Zip5')
     zip5_node.text = zip_code
-    return zip_lookup_request
 
+    return zip_lookup_request
 
 def build_url_usps_zip_lookup(user, zip_code):
     xml_doc = build_api_zip_lookup_element(user, zip_code)
-    print 'xml_doc pasre ', urllib.urlencode({'XML': xml.tostring(xml_doc)})
-
     call = USPS_SHIPPING_ENDPOINT + API_ZIP_LOOKUP + urllib.urlencode({'XML': xml.tostring(xml_doc)})
-    print 'call ', call
+
     return call
 
 @app.route('/')
@@ -103,10 +101,8 @@ def zip_code_lookup():
         city_text = xml.fromstring(zip_code).find('ZipCode').find('City').text
         state_text = xml.fromstring(zip_code).find('ZipCode').find('State').text
 
-
         flash('Zip Code %s is %s, %s' % (zip_text, city_text, state_text), 'success')
 
-        print zip_code
         return redirect(url_for('new_address'))
     return render_template('ziplookup.html', zip_lookup=zip_lookup)
 
@@ -116,7 +112,6 @@ def delete_address(name):
         for address in Addresses:
             if address['name'] == name:
                 Addresses.remove(address)
-
 
         flash('Address deleted', 'success')
 
