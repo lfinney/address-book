@@ -1,10 +1,10 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <div class="address-book">
-    <h2 class="heading">Add address</h2>
+  <div class="container">
+    <h2 class="title">Add Address</h2>
     {% from "includes/_formhelpers.html" import render_field %}
-    <form method="POST" action="">
+    <form method="POST" action="" class="address-book">
       <div class="form-field">
         {{render_field(form.name, class_="form-input")}}
       </div>
@@ -20,8 +20,10 @@
       <div class="form-field">
         {{render_field(form.zip_code, class_="form-input")}}
       </div>
-      <button class="submit">Add Address</button>
+      <div class="button-container">
+        <span class="nav-link zip-link"><a href="zip-lookup">Lookup City/State by Zip</a></span>
+        <button class="nav-link">+ Add Address</button>
+      </div>
     </form>
-    <a href="zip-lookup" class="link">Lookup City/State by Zip</a>
   </div>
 {% endblock %}

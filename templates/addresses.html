@@ -1,25 +1,25 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <div class='address-book'>
-    <h1 class='title'>Your Address Book</h1>
+  <div class='container'>
+    <h2 class='title'>Your Rolodex</h2>
     <ul class="addresses">
       {% for address in addresses %}
         <li class="address-entry">
-            {{ address.name }}
-            {{ address.address }}
-            {{ address.city }}
-            {{ address.state }}
-            {{ address.zip_code }}
+            <div class="address-block">
+              <p class="address-data">{{ address.name }}</p>
+              <p class="address-data">{{ address.address }}</p>
+              <p class="address-data">{{ address.city }}, {{ address.state }} {{ address.zip_code }}</p>
+            </div>
             <form
               action="{{url_for('delete_address', name=address.name)}}"
               method="post">
               <input type="hidden" name="_method" value="X" />
-              <input type="submit" value="X" class="delete-btn"/>
+              <input type="submit" value="X" class="delete-button"/>
             </form>
         </li>
       {% endfor %}
     </ul>
-    <a href="new-address" class="link">Add new address</a>
+      <span class="nav-link"><a href="new-address">+ New Address</a></span>
   </div>
 {% endblock %}

@@ -1,5 +1,4 @@
-index.py
-
 venv
 
-apikey.py
+config.py
+config.pyc

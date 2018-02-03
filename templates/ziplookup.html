@@ -1,13 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-  <div class="address-book">
+  <div class="container">
+    <h2 class='title'>City-State Lookup</h2>
     {% from "includes/_formhelpers.html" import render_field %}
-    <form method="POST" action="">
+    <form method="POST" action="" class="address-book">
         <div class="form-field">
           {{render_field(zip_lookup.zip_code, class_="form-input")}}
         </div>
-        <button class="submit">Lookup by Zip</button>
+        <button class="nav-link">Lookup</button>
     </form>
   </div>
 {% endblock %}

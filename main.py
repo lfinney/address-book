@@ -4,8 +4,7 @@ from urlparse import urlparse
 from flask import Flask, request, render_template, flash, redirect, url_for, session, logging
 from wtforms import Form, StringField, validators
 import xml.etree.ElementTree as xml
-
-
+from config import api_info
 
 app = Flask(__name__)
 app.secret_key = "super secret key"
@@ -55,7 +54,6 @@ def build_url_usps_zip_lookup(user, zip_code):
 
 @app.route('/')
 def index():
-    print 'test_response: ' + str(test_response)
     return render_template('home.html')
 
 @app.route('/addresses')
@@ -98,7 +96,7 @@ def zip_code_lookup():
     zip_lookup = ZipCodeLookup(request.form)
     if request.method == 'POST' and zip_lookup.validate():
         zip_code = zip_lookup.zip_code.data
-        zip_code = build_url_usps_zip_lookup(API_USERNAME, zip_code)
+        zip_code = build_url_usps_zip_lookup(api_info['API_USERNAME'], zip_code)
         zip_code = urllib.urlopen(zip_code).read()
 
         zip_text = xml.fromstring(zip_code).find('ZipCode').find('Zip5').text
@@ -106,7 +104,7 @@ def zip_code_lookup():
         state_text = xml.fromstring(zip_code).find('ZipCode').find('State').text
 
 
-        flash('The city is %s and the state is %s for zip code %s' % (city_text, state_text, zip_text), 'success')
+        flash('Zip Code %s is %s, %s' % (zip_text, city_text, state_text), 'success')
 
         print zip_code
         return redirect(url_for('new_address'))
